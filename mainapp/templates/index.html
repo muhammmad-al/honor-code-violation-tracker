@@ -1,16 +1,16 @@
-{% load socialaccount %}
 <html>
 <body>
-<h1>My Google OAuth Project </h1>
-{% if user.is_authenticated %}
-  {% if user.is_superuser %}
-    <p>You are logged in as admin: {{ user.username }}</p>
-  {% else %}
-    <p>Welcome, You are logged in as {{ user.username }}</p>
-  {% endif %}
-{% else %}
-  <a href="{% provider_login_url 'google' %}">Login With Google</a>
-{% endif %}
+  <h1>Welcome to My Google OAuth Project</h1>
+
+  <p>
+    <a href="{% url 'user_login' %}">User Login</a> -
+    Login as a regular user.
+  </p>
+
+  <p>
+    <a href="{% url 'admin_login' %}">Admin Login</a> -
+    Login as an admin user.
+  </p>
 </body>
 </html>
 
