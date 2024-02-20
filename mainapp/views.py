@@ -12,6 +12,7 @@ class UserLoginView(View):
     def get(self, request):
         return render(request, 'user_login.html')
 
+
 class AdminLoginView(View):
     def get(self, request):
         return render(request, 'admin_login.html')
