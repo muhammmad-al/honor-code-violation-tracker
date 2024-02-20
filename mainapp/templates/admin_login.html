@@ -1,0 +1,11 @@
+{% load socialaccount %}
+<html>
+<body>
+<h1>Admin Dashboard</h1>
+{% if user.is_authenticated and user.is_superuser %}
+  <p>You are logged in as admin: {{ user.username }}</p>
+{% else %}
+   <a href="{% provider_login_url 'google' %}">Login With Google</a>
+{% endif %}
+</body>
+</html>
