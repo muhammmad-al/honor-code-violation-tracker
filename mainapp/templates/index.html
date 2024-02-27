@@ -3,9 +3,21 @@
 <body>
 <h1>My Google OAuth Project </h1>
 {% if user.is_authenticated %}
-  <p>Welcome, You are logged in as {{ user.username }}</p>
+    {% if is_site_admin %}
+        <p>Welcome, admin! <a href="{% url 'admin_dashboard_url' %}">Go to Admin Dashboard</a></p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+        </form>
+    {% else %}
+        <p>Welcome, {{ user.username }}! <a href="{% url 'user_dashboard_url' %}">Go to User Dashboard</a></p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+        </form>
+    {% endif %}
 {% else %}
-  <a href="{% provider_login_url 'google' %}">Login With Google</a>
+    <a href="{% provider_login_url 'google' %}">Login With Google</a>
 {% endif %}
 </body>
 </html>
