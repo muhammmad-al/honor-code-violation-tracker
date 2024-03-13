@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect
 from .forms import HonorCodeViolationForm
 from .models import HonorCodeViolation
 
+
 class UserLoginView(View):
     def get(self, request):
         form = HonorCodeViolationForm()
@@ -23,6 +24,7 @@ class UserLoginView(View):
             form.save()
             return redirect('index')  # Redirect to a confirmation page or back to form
         return render(request, 'user_login.html', {'form': form})
+
 
 class AdminLoginView(View):
     def get(self, request):
