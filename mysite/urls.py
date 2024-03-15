@@ -20,18 +20,20 @@ from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 from mainapp.views import AdminLoginView, UserLoginView, index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('user-login/', UserLoginView.as_view(), name='user_login'),
-    path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
+    path('user_login/', UserLoginView.as_view(), name='user_dashboard_url'),
+    path('admin-login/', AdminLoginView.as_view(), name='admin_dashboard_url'),
     path('accounts/', include('allauth.urls')),
-    path('logout', LogoutView.as_view()),
-    path('user-login/', UserLoginView.as_view(), name='user_login'),
-    path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout')
+    # path('logout/', LogoutView.as_view()),
+    # path('user-login/', UserLoginView.as_view(), name='user_login'),
+    # path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
 ]
 
 

@@ -10,7 +10,6 @@
 <body>
 <div class="container">
     <h1>Admin Dashboard</h1>
-    {% if user.is_authenticated and user.is_superuser %}
       <p>You are logged in as admin: {{ user.username }}</p>
       {% for violation in violations %}
       <div class="card" style="margin-bottom: 20px;">
@@ -24,9 +23,6 @@
         </div>
       </div>
       {% endfor %}
-    {% else %}
-       <a href="{% provider_login_url 'google' %}" class="btn btn-primary">Login With Google</a>
-    {% endif %}
 </div>
 </body>
 </html>
