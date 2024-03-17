@@ -13,19 +13,20 @@
         <h1 class="my-4">Honor Code Violation Report Website</h1>
         {% if user.is_authenticated %}
         <p>Welcome, you are logged in as {{ user.username }}</p>
-        {% if is_site_admin %}
-            <a href="{% url 'admin_dashboard_url' %}" class="btn btn-primary mb-2">Go to Admin Dashboard</a>
-            <form action="{% url 'logout' %}" method="post" class="d-inline">
-                {% csrf_token %}
+        <p>Is site admin: {{ is_site_admin }}</p>
+            {% if is_site_admin %}
+                <a href="{% url 'admin_dashboard_url' %}" class="btn btn-primary mb-2">Go to Admin Dashboard</a>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
                 <input type="submit" value="Logout" class="btn btn-danger">
             </form>
-        {% else %}
-            <a href="{% url 'user_dashboard_url' %}" class="btn btn-primary mb-2">Go to User Dashboard</a>
-            <form action="{% url 'logout' %}" method="post" class="d-inline">
-                {% csrf_token %}
-                <input type="submit" value="Logout" class="btn btn-danger">
-            </form>
-        {% endif %}
+            {% else %}
+                <a href="{% url 'user_dashboard_url' %}" class="btn btn-primary mb-2">Go to User Dashboard</a>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="submit" value="Logout" class="btn btn-danger">
+                </form>
+            {% endif %}
         {% else %}
             <div class="mb-2">
                 <a href="{% provider_login_url 'google' %}" class="btn btn-primary w-100">Login With Google</a>

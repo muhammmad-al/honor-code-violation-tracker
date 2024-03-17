@@ -22,12 +22,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
-from mainapp.views import AdminLoginView, UserLoginView, index
+from mainapp.views import AdminLoginView, UserLoginView, IndexView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
-    path('user_login/', UserLoginView.as_view(), name='user_dashboard_url'),
+    path('', IndexView.as_view(), name='index'),
+    path('user-login/', UserLoginView.as_view(), name='user_dashboard_url'),
     path('admin-login/', AdminLoginView.as_view(), name='admin_dashboard_url'),
     path('accounts/', include('allauth.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout')
