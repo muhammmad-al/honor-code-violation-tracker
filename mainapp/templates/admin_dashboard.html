@@ -1,4 +1,4 @@
-{% load bootstrap5 %} <!-- or bootstrap5 -->
+{% load bootstrap5 %}
 {% load socialaccount %}
 
 <!DOCTYPE html>
@@ -10,19 +10,22 @@
 <body>
 <div class="container">
     <h1>Admin Dashboard</h1>
-      <p>You are logged in as admin: {{ user.username }}</p>
-      {% for violation in violations %}
-      <div class="card" style="margin-bottom: 20px;">
+    <p>You are logged in as admin: {{ user.username }}</p>
+    {% for violation in violations %}
+    <div class="card" style="margin-bottom: 20px;">
         <div class="card-body">
-          <h5 class="card-title">Name: {{ violation.name }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Date of Incident: {{ violation.date_of_incident }}</h6>
-          <p class="card-text">Description: {{ violation.description }}</p>
-          {% if violation.photo %}
-          <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
-          {% endif %}
+            <h5 class="card-title">Name: {{ violation.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Date of Incident: {{ violation.date_of_incident }}</h6>
+            <p class="card-text">Description: {{ violation.description }}</p>
+            {% if violation.photo %}
+            <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
+            {% endif %}
+            {% if violation.file %}
+            <a href="{{ violation.file.url }}" class="btn btn-link">Download File</a>
+            {% endif %}
         </div>
-      </div>
-      {% endfor %}
+    </div>
+    {% endfor %}
 </div>
 </body>
 </html>

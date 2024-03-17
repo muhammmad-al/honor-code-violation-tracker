@@ -4,13 +4,12 @@ from django.views import View
 from allauth.socialaccount.models import SocialAccount
 
 
-def index(request):
-    return render(request, 'index.html')
 
 
 from django.shortcuts import render, redirect
 from .forms import HonorCodeViolationForm
 from .models import HonorCodeViolation
+
 
 class IndexView(View):
     def get(self, request):

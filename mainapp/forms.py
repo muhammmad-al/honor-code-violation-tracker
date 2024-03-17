@@ -7,4 +7,4 @@ class HonorCodeViolationForm(forms.ModelForm):
         widgets = {
             'date_of_incident': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
-        fields = ['name', 'date_of_incident', 'description', 'photo']
+        fields = ['name', 'date_of_incident', 'description', 'photo', 'file']
