@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -95,6 +96,7 @@ if USE_LOCAL_DB:
 else:
     # Heroku database settings
     DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -157,7 +159,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-SITE_ID = 5
+SITE_ID = 4 
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

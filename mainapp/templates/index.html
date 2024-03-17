@@ -1,16 +1,40 @@
-<html>
+{% load bootstrap5 %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honor Code Violation Report Website</title>
+</head>
 <body>
-  <h1>Welcome to My Google OAuth Project</h1>
-
-  <p>
-    <a href="{% url 'user_login' %}">User Login</a> -
-    Login as a regular user.
-  </p>
-
-  <p>
-    <a href="{% url 'admin_login' %}">Admin Login</a> -
-    Login as an admin user.
-  </p>
+    <div class="container text-center">
+        <h1 class="my-4">Honor Code Violation Report Website</h1>
+        {% if user.is_authenticated %}
+        <p>Welcome, you are logged in as {{ user.username }}</p>
+        <p>Is site admin: {{ is_site_admin }}</p>
+            {% if is_site_admin %}
+                <a href="{% url 'admin_dashboard_url' %}" class="btn btn-primary mb-2">Go to Admin Dashboard</a>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                <input type="submit" value="Logout" class="btn btn-danger">
+            </form>
+            {% else %}
+                <a href="{% url 'user_dashboard_url' %}" class="btn btn-primary mb-2">Go to User Dashboard</a>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="submit" value="Logout" class="btn btn-danger">
+                </form>
+            {% endif %}
+        {% else %}
+            <div class="mb-2">
+                <a href="{% provider_login_url 'google' %}" class="btn btn-primary w-100">Login With Google</a>
+            </div>
+            <div>
+                <a href="{% url 'user_dashboard_url' %}" class="btn btn-secondary w-100">Submit a form anonymously</a>
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>
-

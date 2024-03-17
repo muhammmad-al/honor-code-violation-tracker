@@ -18,14 +18,24 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
-from mainapp.views import AdminLoginView, UserLoginView, index
+from mainapp.views import AdminLoginView, UserLoginView, IndexView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
-    path('user-login/', UserLoginView.as_view(), name='user_login'),
-    path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
+    path('', IndexView.as_view(), name='index'),
+    path('user-login/', UserLoginView.as_view(), name='user_dashboard_url'),
+    path('admin-login/', AdminLoginView.as_view(), name='admin_dashboard_url'),
     path('accounts/', include('allauth.urls')),
-    path('logout', LogoutView.as_view()),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout')
+    # path('logout/', LogoutView.as_view()),
+    # path('user-login/', UserLoginView.as_view(), name='user_login'),
+    # path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
