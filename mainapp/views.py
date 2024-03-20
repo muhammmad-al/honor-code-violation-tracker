@@ -20,9 +20,17 @@ def violation_detail(request, id):
 
 def mark_resolved(request, id):
     violation = get_object_or_404(HonorCodeViolation, id=id)
-    violation.status = 'resolved'
-    violation.save()
+    if request.method == 'POST':
+        resolution_notes = request.POST.get('resolution_notes')
+        violation.resolution_notes = resolution_notes
+        violation.status = 'resolved'
+        violation.save()
     return HttpResponseRedirect(reverse('admin_dashboard_url'))
+
+
+@login_required
+def account_details(request):
+    return render(request, 'account_details.html', {'user': request.user})
 
 
 class IndexView(View):

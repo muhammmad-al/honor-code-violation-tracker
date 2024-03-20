@@ -34,7 +34,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('violations/<int:id>/resolve/', views.mark_resolved, name='mark_resolved'),
-
+    path('account_details/', views.account_details, name='account_details'),
     # path('logout/', LogoutView.as_view()),
     # path('user-login/', UserLoginView.as_view(), name='user_login'),
     # path('admin-login/', AdminLoginView.as_view(), name='admin_login'),

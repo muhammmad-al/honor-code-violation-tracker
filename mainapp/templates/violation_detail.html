@@ -10,6 +10,10 @@
         body {
             background-color: #f4f4f4;
         }
+        .navbar {
+            background-color: #007bff;
+            color: white;
+        }
         .container {
             background-color: white;
             padding: 20px;
@@ -22,12 +26,48 @@
             border-bottom: 1px solid #eeeeee;
             padding-bottom: 10px;
         }
-        .btn-info {
+        .btn-info, .btn-primary {
             margin-bottom: 10px;
+        }
+        .notes-section, .action-buttons {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .action-buttons form, .action-buttons a {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #007bff;
         }
     </style>
 </head>
 <body>
+<nav class="navbar">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Violation Information</span>
+        <div class="user-info dropdown">
+            <a href="#" class="profile-icon dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="User Profile">
+                <i class="fas fa-user"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'account_details' %}">Account Details</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="container">
     <div class="header-section">
         <h1>Violation {{ violation.id }}</h1>
@@ -36,22 +76,35 @@
         <p>Description: {{ violation.description }}</p>
     </div>
     {% if violation.photo %}
-        <p>
+        <div>
             <a class="btn btn-info" data-bs-toggle="collapse" href="#collapsePhoto" role="button" aria-expanded="false" aria-controls="collapsePhoto">
-                Toggle Photo
+                View Photo
             </a>
-        </p>
-        <div class="collapse" id="collapsePhoto">
-            <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
+            <div class="collapse" id="collapsePhoto">
+                <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
+            </div>
         </div>
     {% endif %}
     {% if violation.file %}
-        <a href="{{ violation.file.url }}" class="btn btn-primary">Download File</a>
+        <div>
+            <a href="{{ violation.file.url }}" class="btn btn-primary">Download File</a>
+        </div>
+    {% endif %}
+
+    {% if violation.resolution_notes %}
+        <div class="notes-section">
+            <h4>Decision</h4>
+            <p>{{ violation.resolution_notes }}</p>
+        </div>
     {% endif %}
     <div class="action-buttons">
-        <form action="{% url 'mark_resolved' violation.id %}" method="post" style="display: inline-block;">
+        <form action="{% url 'mark_resolved' violation.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-success">Mark as Resolved</button>
+            <div class="mb-3">
+                <label for="resolutionNotes" class="form-label">Add Decision</label>
+                <textarea class="form-control" id="resolutionNotes" name="resolution_notes" rows="3" placeholder="Enter details of the resolution..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success mb-2">Mark as Resolved</button>
         </form>
         <a href="{% url 'admin_dashboard_url' %}" class="btn btn-secondary">Back to Dashboard</a>
     </div>
