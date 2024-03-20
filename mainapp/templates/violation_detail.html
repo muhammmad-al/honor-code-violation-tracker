@@ -6,20 +6,57 @@
 <head>
     <title>Violation Detail</title>
     {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .header-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 10px;
+        }
+        .btn-info {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>Violation Detail</h1>
-    <h2>{{ violation.name }}</h2>
-    <p>Date of Incident: {{ violation.date_of_incident }}</p>
-    <p>Description: {{ violation.description }}</p>
+    <div class="header-section">
+        <h1>Violation {{ violation.id }}</h1>
+        <h2>{{ violation.name }}</h2>
+        <p>Date of Incident: {{ violation.date_of_incident }}</p>
+        <p>Description: {{ violation.description }}</p>
+    </div>
     {% if violation.photo %}
-        <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
+        <p>
+            <a class="btn btn-info" data-bs-toggle="collapse" href="#collapsePhoto" role="button" aria-expanded="false" aria-controls="collapsePhoto">
+                Toggle Photo
+            </a>
+        </p>
+        <div class="collapse" id="collapsePhoto">
+            <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
+        </div>
     {% endif %}
     {% if violation.file %}
         <a href="{{ violation.file.url }}" class="btn btn-primary">Download File</a>
     {% endif %}
-    <a href="{% url 'admin_dashboard_url' %}" class="btn btn-secondary">Back to Dashboard</a>
+    <div class="action-buttons">
+        <form action="{% url 'mark_resolved' violation.id %}" method="post" style="display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Mark as Resolved</button>
+        </form>
+        <a href="{% url 'admin_dashboard_url' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
 </div>
+
+{% bootstrap_javascript %}
 </body>
 </html>

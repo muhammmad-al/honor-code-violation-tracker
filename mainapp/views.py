@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.views import View
 from allauth.socialaccount.models import SocialAccount
 
@@ -10,8 +12,17 @@ from .models import HonorCodeViolation
 
 def violation_detail(request, id):
     violation = get_object_or_404(HonorCodeViolation, id=id)
-
+    if violation.status == 'new':
+        violation.status = 'in_progress'
+        violation.save()
     return render(request, 'violation_detail.html', {'violation': violation})
+
+
+def mark_resolved(request, id):
+    violation = get_object_or_404(HonorCodeViolation, id=id)
+    violation.status = 'resolved'
+    violation.save()
+    return HttpResponseRedirect(reverse('admin_dashboard_url'))
 
 
 class IndexView(View):

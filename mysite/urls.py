@@ -32,7 +32,9 @@ urlpatterns = [
     path('user-login/', UserLoginView.as_view(), name='user_dashboard_url'),
     path('admin-login/', AdminLoginView.as_view(), name='admin_dashboard_url'),
     path('accounts/', include('allauth.urls')),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout')
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('violations/<int:id>/resolve/', views.mark_resolved, name='mark_resolved'),
+
     # path('logout/', LogoutView.as_view()),
     # path('user-login/', UserLoginView.as_view(), name='user_login'),
     # path('admin-login/', AdminLoginView.as_view(), name='admin_login'),

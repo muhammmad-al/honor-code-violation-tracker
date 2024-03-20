@@ -6,20 +6,43 @@
 <head>
     <title>Admin Dashboard</title>
     {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <h1>Admin Dashboard</h1>
     <p>You are logged in as admin: {{ user.username }}</p>
     {% for violation in violations %}
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-body">
-            <h5 class="card-title">Name: {{ violation.name }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Date of Incident: {{ violation.date_of_incident }}</h6>
-            <p class="card-text">Description: {{ violation.description }}</p>
-            <a href="{% url 'violation_detail' violation.id %}" class="btn btn-primary">View Details</a>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Name: {{ violation.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Date of Incident: {{ violation.date_of_incident }}</h6>
+                <p class="card-text">Description: {{ violation.description }}</p>
+                <a href="{% url 'violation_detail' violation.id %}" class="btn btn-primary">View Details</a>
+                <span class="badge {% if violation.status == 'new' %}bg-primary{% elif violation.status == 'in_progress' %}bg-warning{% else %}bg-secondary{% endif %}">
+                    {{ violation.status }}
+                </span>
+            </div>
         </div>
-    </div>
     {% endfor %}
 </div>
 </body>
