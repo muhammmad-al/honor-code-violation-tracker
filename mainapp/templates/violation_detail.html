@@ -1,0 +1,25 @@
+{% load bootstrap5 %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Violation Detail</title>
+    {% bootstrap_css %}
+</head>
+<body>
+<div class="container">
+    <h1>Violation Detail</h1>
+    <h2>{{ violation.name }}</h2>
+    <p>Date of Incident: {{ violation.date_of_incident }}</p>
+    <p>Description: {{ violation.description }}</p>
+    {% if violation.photo %}
+        <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
+    {% endif %}
+    {% if violation.file %}
+        <a href="{{ violation.file.url }}" class="btn btn-primary">Download File</a>
+    {% endif %}
+    <a href="{% url 'admin_dashboard_url' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+</body>
+</html>

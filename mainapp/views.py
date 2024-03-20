@@ -1,14 +1,17 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from allauth.socialaccount.models import SocialAccount
-
-
-
 
 from django.shortcuts import render, redirect
 from .forms import HonorCodeViolationForm
 from .models import HonorCodeViolation
+
+
+def violation_detail(request, id):
+    violation = get_object_or_404(HonorCodeViolation, id=id)
+
+    return render(request, 'violation_detail.html', {'violation': violation})
 
 
 class IndexView(View):

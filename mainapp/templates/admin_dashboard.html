@@ -17,12 +17,7 @@
             <h5 class="card-title">Name: {{ violation.name }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">Date of Incident: {{ violation.date_of_incident }}</h6>
             <p class="card-text">Description: {{ violation.description }}</p>
-            {% if violation.photo %}
-            <img src="{{ violation.photo.url }}" class="img-fluid" alt="Violation Photo">
-            {% endif %}
-            {% if violation.file %}
-            <a href="{{ violation.file.url }}" class="btn btn-link">Download File</a>
-            {% endif %}
+            <a href="{% url 'violation_detail' violation.id %}" class="btn btn-primary">View Details</a>
         </div>
     </div>
     {% endfor %}
