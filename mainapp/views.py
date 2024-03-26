@@ -1,14 +1,36 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.views import View
 from allauth.socialaccount.models import SocialAccount
-
-
-
 
 from django.shortcuts import render, redirect
 from .forms import HonorCodeViolationForm
 from .models import HonorCodeViolation
+
+
+def violation_detail(request, id):
+    violation = get_object_or_404(HonorCodeViolation, id=id)
+    if violation.status == 'new':
+        violation.status = 'in_progress'
+        violation.save()
+    return render(request, 'violation_detail.html', {'violation': violation})
+
+
+def mark_resolved(request, id):
+    violation = get_object_or_404(HonorCodeViolation, id=id)
+    if request.method == 'POST':
+        resolution_notes = request.POST.get('resolution_notes')
+        violation.resolution_notes = resolution_notes
+        violation.status = 'resolved'
+        violation.save()
+    return HttpResponseRedirect(reverse('admin_dashboard_url'))
+
+
+@login_required
+def account_details(request):
+    return render(request, 'account_details.html', {'user': request.user})
 
 
 class IndexView(View):
