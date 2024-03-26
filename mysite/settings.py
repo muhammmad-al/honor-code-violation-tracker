@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import django_heroku
 import dj_database_url
+import sys
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,7 +29,7 @@ USE_LOCAL_DB = os.environ.get('USE_LOCAL_DB', 'False') == 'True'
 SECRET_KEY = 'django-insecure-h8$srj@4b*m8ktnj#ifzrj7m+*!5$$+^vyf7a^%sipmon1enkg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = True
 
 ALLOWED_HOSTS = ['honorcodeviolationapp-283af82898da.herokuapp.com', 'localhost', '127.0.0.1']
 
@@ -133,8 +134,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-django_heroku.settings(locals())
 
+MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+if 'test' not in sys.argv:
+    # Apply Django-Heroku settings, but avoid during tests
+    import django_heroku
+    django_heroku.settings(locals(), staticfiles=False, logging=False)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -165,8 +174,7 @@ AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')  # Defaul
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-SITE_ID = 5 
+SITE_ID = 5
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
