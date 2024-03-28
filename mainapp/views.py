@@ -60,8 +60,8 @@ class UserLoginView(View):
         if form.is_valid():
             form.save()
             send_mail(
-                'Subject here',
-                'Here is the message.',
+                'Form Received',
+                'Your form has been received.',
                 'anhtule7913@gmail.com',  # From email
                 [request.user.email],  # To email list
                 fail_silently=False,
