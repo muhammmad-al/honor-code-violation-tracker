@@ -20,7 +20,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Gets local db flag
-USE_LOCAL_DB = True # os.environ.get('USE_LOCAL_DB', 'False') == 'True'
+USE_LOCAL_DB = -os.environ.get('USE_LOCAL_DB', 'False') == 'True'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
