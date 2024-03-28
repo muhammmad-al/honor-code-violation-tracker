@@ -9,6 +9,8 @@ from django.shortcuts import render, redirect
 from .forms import HonorCodeViolationForm
 from .models import HonorCodeViolation
 
+from django.core.mail import send_mail
+
 
 # Imported + printed on view!
 from django.contrib.sites.shortcuts import get_current_site
@@ -57,6 +59,15 @@ class UserLoginView(View):
         form = HonorCodeViolationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            send_mail(
+                'Subject here',
+                'Here is the message.',
+                'anhtule7913@gmail.com',  # From email
+                [request.user.email],  # To email list
+                fail_silently=False,
+            )
+            
+    
             return redirect('index')  # Redirect to a confirmation page or back to form
         return render(request, 'user_dashboard.html', {'form': form})
 
