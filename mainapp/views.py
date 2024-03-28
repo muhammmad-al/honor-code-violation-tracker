@@ -10,6 +10,10 @@ from .forms import HonorCodeViolationForm
 from .models import HonorCodeViolation
 
 
+# Imported + printed on view!
+from django.contrib.sites.shortcuts import get_current_site
+
+
 def violation_detail(request, id):
     violation = get_object_or_404(HonorCodeViolation, id=id)
     if violation.status == 'new':
@@ -36,8 +40,10 @@ def account_details(request):
 class IndexView(View):
     def get(self, request):
         is_site_admin = request.user.groups.filter(name='site_admin').exists()
+        current_site = get_current_site(request)
         context = {
-            'is_site_admin': is_site_admin
+            'is_site_admin': is_site_admin,
+            'current_site': current_site
         }
         return render(request, 'index.html', context)
 
