@@ -141,9 +141,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 #?
-STATICFILES_DIRS = [
-    BASE_DIR / "mainapp/static",
-]
+#STATICFILES_DIRS = [
+    #BASE_DIR / "mainapp/static",
+#]
 
 
 MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
