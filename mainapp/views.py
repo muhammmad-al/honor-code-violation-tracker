@@ -4,6 +4,9 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+
 
 from django.shortcuts import render, redirect
 from .forms import HonorCodeViolationForm
@@ -39,6 +42,14 @@ def account_details(request):
     return render(request, 'account_details.html', {'user': request.user})
 
 
+class UserViolationsView(LoginRequiredMixin, ListView):
+    model = HonorCodeViolation
+    template_name = 'user_violations.html'
+    context_object_name = 'violations'
+
+    def get_queryset(self):
+        return HonorCodeViolation.objects.filter(user=self.request.user)
+
 class IndexView(View):
     def get(self, request):
         is_site_admin = request.user.groups.filter(name='site_admin').exists()
@@ -58,7 +69,10 @@ class UserLoginView(View):
     def post(self, request):
         form = HonorCodeViolationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            violation = form.save(commit=False)  # Save the form temporarily without committing to the database
+            if request.user.is_authenticated:
+                violation.user = request.user  # Set the user of the violation to the currently logged-in user
+            violation.save()  # Now save the violation to the database
             send_mail(
                 'Form Received',
                 'Your form has been received.',
@@ -66,8 +80,6 @@ class UserLoginView(View):
                 [request.user.email],  # To email list
                 fail_silently=False,
             )
-            
-    
             return redirect('index')  # Redirect to a confirmation page or back to form
         return render(request, 'user_dashboard.html', {'form': form})
 

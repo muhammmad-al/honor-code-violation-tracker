@@ -1,0 +1,85 @@
+{% load bootstrap5 %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Violations</title>
+    {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #007bff;
+            color: white;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+        }
+        .badge-new {
+            background-color: #28a745;
+        }
+        .badge-in-progress {
+            background-color: #ffc107;
+        }
+        .badge-resolved {
+            background-color: #dc3545;
+        }
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>My Submitted Violations</h2>
+    {% if violations %}
+        {% for violation in violations %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Date of Incident:</strong> {{ violation.date_of_incident }}</h5>
+                    <p class="card-text"><strong>Status:</strong> {{ violation.get_status_display }}</p>
+                    <p class="card-text"><strong>Resolution Notes:</strong> {{ violation.resolution_notes|default:"N/A" }}</p>
+                    <!-- {% if violation.admin_decision %}
+                        <p class="card-text"><strong>Admin Decision:</strong> {{ violation.admin_decision }}</p>
+                    {% else %}
+                        <p class="card-text"><strong>Admin Decision:</strong> Pending</p>
+                    {% endif %} -->
+                </div>
+                <span class="badge {% if violation.status == 'new' %}badge-new{% elif violation.status == 'in_progress' %}badge-in-progress{% elif violation.status == 'resolved' %}badge-resolved{% else %}badge-secondary{% endif %}">
+                    {{ violation.get_status_display }}
+                </span>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have not submitted any violations.</p>
+    {% endif %}
+</div>
+
+{% bootstrap_javascript %}
+</body>
+</html>
