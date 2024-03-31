@@ -2,8 +2,10 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
+from django.conf import settings
 
 class HonorCodeViolation(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='violations')
     name = models.CharField(max_length=255, blank=True)
     date_of_incident = models.DateField()
     description = models.TextField()
