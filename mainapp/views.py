@@ -33,6 +33,15 @@ def mark_resolved(request, id):
         resolution_notes = request.POST.get('resolution_notes')
         violation.resolution_notes = resolution_notes
         violation.status = 'resolved'
+        
+        send_mail(
+                'Form Reviewed',
+                'Your form has been reviewed',
+                'anhtuleschool@gmail.com',  # From email
+                [violation.user.email],  # To email list
+                fail_silently=True,
+            )
+
         violation.save()
     return HttpResponseRedirect(reverse('admin_dashboard_url'))
 
@@ -76,9 +85,9 @@ class UserLoginView(View):
             send_mail(
                 'Form Received',
                 'Your form has been received.',
-                'anhtule7913@gmail.com',  # From email
+                'anhtuleschool@gmail.com',  # From email
                 [request.user.email],  # To email list
-                fail_silently=False,
+                fail_silently=True,
             )
             return redirect('index')  # Redirect to a confirmation page or back to form
         return render(request, 'user_dashboard.html', {'form': form})
