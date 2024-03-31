@@ -34,13 +34,15 @@ def mark_resolved(request, id):
         violation.resolution_notes = resolution_notes
         violation.status = 'resolved'
         
-        send_mail(
-                'Form Reviewed',
-                'Your form has been reviewed',
-                'anhtuleschool@gmail.com',  # From email
-                [violation.user.email],  # To email list
-                fail_silently=True,
-            )
+
+        if violation.user.is_authenticated: 
+            send_mail(
+                    'Form Reviewed',
+                    'Your form has been reviewed',
+                    'anhtuleschool@gmail.com',  # From email
+                    [violation.user.email],  # To email list
+                    fail_silently=True,
+                )
 
         violation.save()
     return HttpResponseRedirect(reverse('admin_dashboard_url'))
@@ -82,13 +84,19 @@ class UserLoginView(View):
             if request.user.is_authenticated:
                 violation.user = request.user  # Set the user of the violation to the currently logged-in user
             violation.save()  # Now save the violation to the database
-            send_mail(
-                'Form Received',
-                'Your form has been received.',
-                'anhtuleschool@gmail.com',  # From email
-                [request.user.email],  # To email list
-                fail_silently=True,
-            )
+
+
+
+            if request.user.is_authenticated:
+                send_mail(
+                    'Form Received',
+                    'Your form has been received.',
+                    'anhtuleschool@gmail.com',  # From email
+                    [request.user.email],  # To email list
+                    fail_silently=True,
+                )
+
+            
             return redirect('index')  # Redirect to a confirmation page or back to form
         return render(request, 'user_dashboard.html', {'form': form})
 
