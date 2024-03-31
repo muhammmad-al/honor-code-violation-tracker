@@ -38,7 +38,7 @@ def mark_resolved(request, id):
         if violation.user.is_authenticated: 
             send_mail(
                     'Form Reviewed',
-                    'Your form has been reviewed:\n Resolution Notes' +  resolution_notes,
+                    'Your form has been reviewed:\n Resolution Notes: ' +  resolution_notes,
                     'anhtuleschool@gmail.com',  # From email
                     [violation.user.email],  # To email list
                     fail_silently=True,
