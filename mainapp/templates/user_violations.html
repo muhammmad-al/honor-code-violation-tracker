@@ -55,6 +55,27 @@
 </head>
 <body>
 
+<nav class="navbar">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">User Violations</span>
+        <div class="user-info">
+            <div class="profile-icon" title="User Profile">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle text-white" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ user.username }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'account_details' %}">Account Details</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'user_violations' %}" class="dropdown-item">My Violations</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
 <div class="container">
     <h2>My Submitted Violations</h2>
     {% if violations %}
