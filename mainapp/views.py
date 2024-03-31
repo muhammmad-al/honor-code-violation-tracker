@@ -85,8 +85,7 @@ class UserLoginView(View):
                 violation.user = request.user  # Set the user of the violation to the currently logged-in user
             violation.save()  # Now save the violation to the database
 
-
-
+         
             if request.user.is_authenticated:
                 send_mail(
                     'Form Received',
