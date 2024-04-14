@@ -53,6 +53,11 @@ def account_details(request):
     return render(request, 'account_details.html', {'user': request.user})
 
 
+@login_required
+def admin_account_details(request):
+    return render(request, 'admin_account_details.html', {'user': request.user})
+
+
 class UserViolationsView(LoginRequiredMixin, ListView):
     model = HonorCodeViolation
     template_name = 'user_violations.html'
