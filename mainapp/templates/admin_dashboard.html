@@ -62,16 +62,21 @@
     </style>
 </head>
 <body>
+
+
 <nav class="navbar">
     <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Admin Dashboard</span>
         <div class="user-info dropdown">
-            <a href="#" class="profile-icon dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="User Profile">
-                <i class="fas fa-user"></i>
+
+            <a href="#" class="dropdown-toggle text-white" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ user.username }}
             </a>
+
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'account_details' %}">Account Details</a></li>
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+
             </ul>
         </div>
     </div>

@@ -9,6 +9,11 @@
         body {
             background-color: #f4f4f4;
         }
+        .navbar {
+            margin-bottom: 20px;
+            background-color: #007bff;
+            color: white;
+        }
         .container {
             background-color: white;
             padding: 20px;
@@ -31,9 +36,47 @@
             font-size: 1.2rem;
             color: #007bff;
         }
+        .navbar .dropdown-menu {
+            right: 0; /* Align the dropdown menu to the right of the dropdown button */
+        }
     </style>
 </head>
 <body>
+
+
+    <!-- <nav class="navbar">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Admin Dashboard</span>
+            <div class="user-info dropdown">
+                <a href="#" class="profile-icon dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="User Profile">
+                    <i class="fas fa-user"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'account_details' %}">Account Details</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+
+<nav class="navbar">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Account Details</span>
+        <div class="user-info dropdown">
+            <a href="#" class="dropdown-toggle text-white" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ user.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+                <li><a class="dropdown-item" href="{% url 'user_violations' %}">Dashboard</a></li>
+                <li><a class="dropdown-item" href="{% url 'user_dashboard_url' %}">Submit a Violation</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="container">
     <h1>Account Details</h1>
     <div class="user-details">
@@ -41,6 +84,8 @@
         <p>Email: {{ user.email }}</p>
     </div>
 </div>
+
+{% bootstrap_javascript %}
 </body>
 </html>
 {% endblock %}
