@@ -80,7 +80,10 @@
         {% for violation in violations %}
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><strong>Date of Incident:</strong> {{ violation.date_of_incident }}</h5>
+                    
+                    <h5 class="card-title"><strong>Name:</strong> {{ violation.name }}</h5>
+                    
+                    <p class="card-title"><strong>Date of Incident:</strong> {{ violation.date_of_incident }}</p>
                     <p class="card-text"><strong>Status:</strong> {{ violation.get_status_display }}</p>
                     <p class="card-text"><strong>Resolution Notes:</strong> {{ violation.resolution_notes|default:"N/A" }}</p>
                     <!-- {% if violation.admin_decision %}
