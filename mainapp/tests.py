@@ -11,26 +11,32 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
 from mainapp.forms import HonorCodeViolationForm
 
+
 class HonorCodeViolationModelTests(TestCase):
+    #validates string representation of honor code violation
     def test_model_str(self):
         violation = HonorCodeViolation(name="Test Name", date_of_incident=date.today(), description="Test Description")
         self.assertEqual(str(violation), f"Violation by Test Name on {date.today()}")
 
+    #validates model throws ValidationError when an invalid date format is provided
     def test_invalid_date(self):
         violation = HonorCodeViolation(date_of_incident="not a date", description="Test")
         with self.assertRaises(ValidationError):
             violation.full_clean()
 
 class IndexViewTests(TestCase):
+    #sets up necessary objects for tests
     def setUp(self):
         site = Site.objects.create(domain='test.com', name='test')
         app = SocialApp.objects.create(provider='google', name='Google', client_id='client_id', secret='secret', key='')
         app.sites.add(site)
         settings.SITE_ID = site.id
 
+    #verifies that the index view is accessible
     def test_index_view_status_code(self):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
+    #tests admin access without authentication to check if model incorrectly allows access to admin site
     def test_admin_login_view_access_without_authentication(self):
         response = self.client.get(reverse('admin_dashboard_url'))
         self.assertEqual(response.status_code, 200)
@@ -39,11 +45,13 @@ class UserLoginAndFileUploadTests(TestCase):
         self.user = User.objects.create_user(username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
 
+    #ensures that once logged in, user can access the user dashboard
     def test_login_screen(self):
         response = self.client.get(reverse('user_dashboard_url'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user_dashboard.html')
 
+    #validates file upload functionality for .txt files
     def test_upload_txt_file(self):
         test_file_path = os.path.join(settings.BASE_DIR, 'mainapp', 'test_files', 'test.txt')
 
@@ -56,6 +64,7 @@ class UserLoginAndFileUploadTests(TestCase):
             })
             self.assertEqual(response.status_code, 302)
 
+    #validates file upload functionality for .pdf files
     def test_upload_pdf_file(self):
         test_file_path = os.path.join(settings.BASE_DIR, 'mainapp', 'test_files', 'test.pdf')
 
@@ -68,6 +77,7 @@ class UserLoginAndFileUploadTests(TestCase):
             })
             self.assertEqual(response.status_code, 302)
 
+    #validates file upload functionality for .jpg files
     def test_upload_jpg_file(self):
         test_file_path = os.path.join(settings.BASE_DIR, 'mainapp', 'test_files', 'test.jpg')
 
@@ -79,3 +89,28 @@ class UserLoginAndFileUploadTests(TestCase):
                 'file': SimpleUploadedFile(file.name, file.read(), content_type='image/jpeg'),
             })
             self.assertEqual(response.status_code, 302)
+
+    #ensures user cannot enter empty form submission
+    def test_empty_field_submission(self):
+        post_url = reverse('user_dashboard_url')
+        response = self.client.post(post_url, {
+            'name': '',
+            'date_of_incident': '',
+            'description': '',
+        })
+
+        form = response.context['form']
+        self.assertFalse(form.is_valid(), "Form should be invalid if required fields are missing.")
+
+
+        self.assertNotIn('name', form.errors, "Unexpected validation error for 'name' field.")
+        self.assertIn('date_of_incident', form.errors, "Expected 'date_of_incident' field error not found.")
+        self.assertIn('This field is required.', form.errors['date_of_incident'],
+                      "Missing or incorrect error message for 'date_of_incident' field.")
+        self.assertIn('description', form.errors, "Expected 'description' field error not found.")
+        self.assertIn('This field is required.', form.errors['description'],
+                      "Missing or incorrect error message for 'description' field.")
+
+
+
+
