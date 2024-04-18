@@ -9,8 +9,8 @@ from django.urls import reverse
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from mainapp.forms import HonorCodeViolationForm
-
 
 class HonorCodeViolationModelTests(TestCase):
     #validates string representation of honor code violation
@@ -110,7 +110,23 @@ class UserLoginAndFileUploadTests(TestCase):
         self.assertIn('description', form.errors, "Expected 'description' field error not found.")
         self.assertIn('This field is required.', form.errors['description'],
                       "Missing or incorrect error message for 'description' field.")
+class RoleBasedAccessTests(TestCase):
+    def setUp(self):
+        self.site_admin = User.objects.create_user(username='siteadmin', password='testpass123')
+        site_admin_group = Group.objects.create(name='Site Admin')
+        site_admin_group.user_set.add(self.site_admin)
+        self.assertTrue(self.site_admin.groups.filter(name='Site Admin').exists())
 
+    #test common user access to admin-specific page (should not be allowed)
+    def test_common_user_access(self):
+        self.client.login(username='commonuser', password='testpass123')
+        response = self.client.get(reverse('admin_account_details'))
+        self.assertNotEqual(response.status_code, 200)
 
-
-
+    #test admin access to admin specific page (should be allowed)
+    def test_site_admin_access(self):
+        self.client.login(username='siteadmin', password='testpass123')
+        response = self.client.get(reverse('admin_account_details'))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(reverse('admin:index'))
+        self.assertNotEqual(response.status_code, 200)
