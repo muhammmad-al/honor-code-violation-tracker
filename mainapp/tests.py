@@ -130,3 +130,27 @@ class RoleBasedAccessTests(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.get(reverse('admin:index'))
         self.assertNotEqual(response.status_code, 200)
+
+
+class AnonymousSubmissionTests(TestCase):
+    #verify that no information about anonymous users are retained
+    def test_anonymous_submission_no_user_retained(self):
+        test_file_path = os.path.join(settings.BASE_DIR, 'mainapp', 'test_files', 'test.txt')
+        submit_url = reverse('user_dashboard_url')
+
+        with open(test_file_path, 'rb') as file:
+            response = self.client.post(submit_url, {
+                'text': 'Anonymous report content',
+                'file': SimpleUploadedFile(file.name, file.read(), content_type='text/plain')
+            }, follow=True)
+
+        self.assertIn(response.status_code, [200, 302])
+
+        violation = HonorCodeViolation.objects.last()
+        if violation:
+            self.assertIsNone(violation.user, "User should be None for anonymous submissions")
+            self.assertEqual(violation.description, 'Anonymous report content')
+
+#create integration tests here
+
+#consider using selenium after testing document is turned in -- communicate with team
