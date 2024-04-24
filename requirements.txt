@@ -29,3 +29,5 @@ urllib3
 whitenoise==6.6.0
 django-storages
 boto3
+selenium==3.141.0
+responses==0.21.0
