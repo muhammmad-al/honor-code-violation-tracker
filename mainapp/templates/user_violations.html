@@ -86,11 +86,10 @@
                     <p class="card-title"><strong>Date of Incident:</strong> {{ violation.date_of_incident }}</p>
                     <p class="card-text"><strong>Status:</strong> {{ violation.get_status_display }}</p>
                     <p class="card-text"><strong>Resolution Notes:</strong> {{ violation.resolution_notes|default:"N/A" }}</p>
-                    <!-- {% if violation.admin_decision %}
-                        <p class="card-text"><strong>Admin Decision:</strong> {{ violation.admin_decision }}</p>
-                    {% else %}
-                        <p class="card-text"><strong>Admin Decision:</strong> Pending</p>
-                    {% endif %} -->
+                    <form action="{% url 'violation_delete' violation.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this violation?');">Delete</button>
+                    </form>
                 </div>
                 <span class="badge {% if violation.status == 'new' %}badge-new{% elif violation.status == 'in_progress' %}badge-in-progress{% elif violation.status == 'resolved' %}badge-resolved{% else %}badge-secondary{% endif %}">
                     {{ violation.get_status_display }}

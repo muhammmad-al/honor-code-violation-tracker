@@ -101,6 +101,9 @@
             <p>{{ violation.resolution_notes }}</p>
         </div>
     {% endif %}
+    {% if violation.class_name %}
+    <p>Class: {{ violation.class_name }}</p>
+    {% endif %}
     <div class="action-buttons">
         <form action="{% url 'mark_resolved' violation.id %}" method="post">
             {% csrf_token %}

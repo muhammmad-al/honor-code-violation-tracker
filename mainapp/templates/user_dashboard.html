@@ -97,6 +97,9 @@
                 {% if field.help_text %}
                     <div class="form-text">{{ field.help_text }}</div>
                 {% endif %}
+                {% if field.name == 'class_name' %}
+                <div class="form-text">Optional: Enter the class associated with this violation (if applicable).</div>
+                {% endif %}
                 {% if field.errors %}
                     {% for error in field.errors %}
                         <div class="invalid-feedback">{{ error }}</div>

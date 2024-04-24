@@ -52,9 +52,14 @@
                 {{ user.username }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                {% if is_site_admin %}
+                 <li><a class="dropdown-item" href="{% url 'admin_dashboard_url' %}">Dashboard</a></li>
+                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
                 <li><a class="dropdown-item" href="{% url 'user_violations' %}">Dashboard</a></li>
                 <li><a class="dropdown-item" href="{% url 'user_dashboard_url' %}">Submit a Violation</a></li>
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>

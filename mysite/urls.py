@@ -36,13 +36,8 @@ urlpatterns = [
     path('violations/<int:id>/resolve/', views.mark_resolved, name='mark_resolved'),
     path('account_details/', views.account_details, name='account_details'),
     path('admin_account_details/', views.admin_account_details, name='admin_account_details'),
-
-
     path('my-violations/', UserViolationsView.as_view(), name='user_violations'),
-
-    # path('logout/', LogoutView.as_view()),
-    # path('user-login/', UserLoginView.as_view(), name='user_login'),
-    # path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
+    path('violations/<int:id>/delete/', views.DeleteViolationView.as_view(), name='violation_delete'),
 ]
 
 

@@ -29,7 +29,7 @@ USE_LOCAL_DB = os.environ.get('USE_LOCAL_DB', 'False') == 'True'
 SECRET_KEY = 'django-insecure-h8$srj@4b*m8ktnj#ifzrj7m+*!5$$+^vyf7a^%sipmon1enkg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['honorcodeviolationapp-283af82898da.herokuapp.com', 'localhost', '127.0.0.1']
 
@@ -82,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -97,7 +96,6 @@ if USE_LOCAL_DB:
 else:
     # Heroku database settings
     DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -117,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -129,31 +126,28 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
-#?
-#STATICFILES_DIRS = [
-    #BASE_DIR / "mainapp/static",
-#]
+# ?
+# STATICFILES_DIRS = [
+# BASE_DIR / "mainapp/static",
+# ]
 
 
 MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
-
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 if 'test' not in sys.argv:
     # Apply Django-Heroku settings, but avoid during tests
     import django_heroku
+
     django_heroku.settings(locals(), staticfiles=False, logging=False)
 
 # Default primary key field type
@@ -168,12 +162,8 @@ AUTHENTICATION_BACKENDS = [
 
 SOCIALACCOUNT_PROVIDERS = {
 
-    
-
-
     'google': {
 
-    
         'SCOPE': [
             'profile',
             'email',
@@ -190,7 +180,7 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')  # Default to 'us-east-1' if not set
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+# DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 SITE_ID = 5
 
@@ -202,5 +192,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'anhtuleschool@gmail.com'
-EMAIL_HOST_PASSWORD =  'lhpg rdyr xjfg ptyg' #os.getenv("password_app")
+EMAIL_HOST_PASSWORD = 'lhpg rdyr xjfg ptyg'  # os.getenv("password_app")
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'

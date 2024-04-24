@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -7,13 +8,11 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
-
 from django.shortcuts import render, redirect
 from .forms import HonorCodeViolationForm
 from .models import HonorCodeViolation
 
 from django.core.mail import send_mail
-
 
 # Imported + printed on view!
 from django.contrib.sites.shortcuts import get_current_site
@@ -33,16 +32,15 @@ def mark_resolved(request, id):
         resolution_notes = request.POST.get('resolution_notes')
         violation.resolution_notes = resolution_notes
         violation.status = 'resolved'
-        
 
-        if violation.user.is_authenticated: 
+        if violation.user.is_authenticated:
             send_mail(
-                    'Form Reviewed',
-                    'Your form has been reviewed:\n Resolution Notes: ' +  resolution_notes,
-                    'anhtuleschool@gmail.com',  # From email
-                    [violation.user.email],  # To email list
-                    fail_silently=True,
-                )
+                'Form Reviewed',
+                'Your form has been reviewed:\n Resolution Notes: ' + resolution_notes,
+                'anhtuleschool@gmail.com',  # From email
+                [violation.user.email],  # To email list
+                fail_silently=True,
+            )
 
         violation.save()
     return HttpResponseRedirect(reverse('admin_dashboard_url'))
@@ -65,6 +63,15 @@ class UserViolationsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return HonorCodeViolation.objects.filter(user=self.request.user)
+
+
+class DeleteViolationView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        violation = get_object_or_404(HonorCodeViolation, pk=self.kwargs['id'], user=request.user)
+        violation.delete()
+        messages.add_message(request, messages.SUCCESS, 'Violation has been deleted.')
+        return redirect('user_violations')
+
 
 class IndexView(View):
     def get(self, request):
@@ -90,7 +97,6 @@ class UserLoginView(View):
                 violation.user = request.user  # Set the user of the violation to the currently logged-in user
             violation.save()  # Now save the violation to the database
 
-         
             if request.user.is_authenticated:
                 send_mail(
                     'Form Received',
@@ -100,7 +106,6 @@ class UserLoginView(View):
                     fail_silently=True,
                 )
 
-            
             return redirect('index')  # Redirect to a confirmation page or back to form
         return render(request, 'user_dashboard.html', {'form': form})
 
