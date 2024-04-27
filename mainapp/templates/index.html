@@ -100,14 +100,14 @@
         {% if is_site_admin %}
             <a href="{% url 'admin_dashboard_url' %}" class="btn btn-primary mb-2">Go to Admin Dashboard</a>
         {% else %}
-            <a href="{% url 'user_dashboard_url' %}" class="btn btn-primary mb-2">Go to User Dashboard</a>
+            <a href="{% url 'user_violations' %}" class="btn btn-primary mb-2">Go to User Dashboard</a>
         {% endif %}
     {% else %}
         <div class="mb-2">
             <a href="{% url 'user_dashboard_url' %}" class="btn btn-secondary">Submit a form anonymously</a>
         </div>
         <div>
-            <a href="{% provider_login_url 'google' %}" class="btn btn-primary">Login With Google</a>
+            <a href="{% provider_login_url 'google' %}" class="btn btn-primary">Login</a>
         </div>
     {% endif %}
 </div>
