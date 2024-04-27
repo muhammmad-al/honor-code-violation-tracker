@@ -107,15 +107,20 @@
     <div class="action-buttons">
         <form action="{% url 'mark_resolved' violation.id %}" method="post">
             {% csrf_token %}
+
+
+
+
+            {% if violation.status != 'resolved' %}
             <div class="mb-3">
                 <label for="resolutionNotes" class="form-label">Add Decision</label>
                 <textarea class="form-control" id="resolutionNotes" name="resolution_notes" rows="3" placeholder="Enter details of the resolution..."></textarea>
             </div>
 
-            {% if violation.status != 'resolved' %}
             <button type="submit" class="btn btn-success mb-2">Mark as Resolved</button>
             {% else %}
             <p>Violation is resolved.</p>
+            <p>Resolution Notes: {{ violation.resolution_notes }}</p>
             {% endif %}
 
         </form>
