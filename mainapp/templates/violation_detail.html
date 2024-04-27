@@ -114,6 +114,8 @@
 
 
 
+    {% if violation.status != 'resolved' %}
+
     <div class="action-buttons">
         <form action="{% url 'mark_resolved' violation.id %}" method="post">
             {% csrf_token %}
@@ -124,10 +126,13 @@
 
             <button type="submit" class="btn btn-success mb-2">Mark as Resolved</button>
         </form>
+        </div>
+    {% endif %}
 
-        <a href="{% url 'admin_dashboard_url' %}" class="btn btn-secondary">Back to Dashboard</a>
+
+    <div> <a href="{% url 'admin_dashboard_url' %}" class="btn btn-secondary">Back to Dashboard</a>
     </div>
-
+    </div>
 </div>
 
 {% bootstrap_javascript %}
