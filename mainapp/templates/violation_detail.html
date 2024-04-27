@@ -96,11 +96,16 @@
     {% endif %}
 
 
+    {% if violation.class_name %}
+    <p>Class: {{ violation.class_name }}</p>
+    {% endif %}
+
+
     {% if violation.status == 'resolved' %}
     <div class="notes-section">
         <p>Violation has been resolved.</p>
     {% if violation.resolution_notes %}
-            <h4>Decision</h4>
+            <h4>Resolution Notes</h4>
             <p>{{ violation.resolution_notes }}</p>
     {% endif %}
 </div>
@@ -108,24 +113,24 @@
     {% endif %}
 
 
-    {% if violation.class_name %}
-    <p>Class: {{ violation.class_name }}</p>
-    {% endif %}
+
+    {% if violation.status != 'resolved' %}
+
     <div class="action-buttons">
         <form action="{% url 'mark_resolved' violation.id %}" method="post">
             {% csrf_token %}
-
-            {% if violation.status != 'resolved' %}
             <div class="mb-3">
                 <label for="resolutionNotes" class="form-label">Add Decision</label>
                 <textarea class="form-control" id="resolutionNotes" name="resolution_notes" rows="3" placeholder="Enter details of the resolution..."></textarea>
             </div>
 
             <button type="submit" class="btn btn-success mb-2">Mark as Resolved</button>
-            {% endif %}
-
         </form>
         </div>
+    {% endif %}
+
+
+        
         <a href="{% url 'admin_dashboard_url' %}" class="btn btn-secondary">Back to Dashboard</a>
     </div>
 </div>
