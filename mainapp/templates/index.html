@@ -85,7 +85,7 @@
                     <button type="submit" class="dropdown-item">Logout</button>
                 </form></li>
                 {% if not is_site_admin %}
-                <li><a href="{% url 'user_violations' %}" class="dropdown-item">Submitted Violations</a></li>
+                <li><a href="{% url 'user_violations' %}" class="dropdown-item">Dashboard</a></li>
                 {% endif %}
             </ul>
             {% endif %}
