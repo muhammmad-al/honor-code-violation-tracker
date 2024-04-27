@@ -102,8 +102,7 @@ class UserLoginView(View):
                     'Your form has been received.',
                     'anhtuleschool@gmail.com',  # From email
                     [request.user.email],  # To email list
-                    fail_silently=True,
-                )
+                    fail_silently=True,)
 
             return redirect('index')  # Redirect to a confirmation page or back to form
         return render(request, 'user_dashboard.html', {'form': form})
@@ -112,4 +111,8 @@ class UserLoginView(View):
 class AdminLoginView(View):
     def get(self, request):
         violations = HonorCodeViolation.objects.all()
+        
+        # sort violations by date
+        violations = sorted(violations, key=lambda x: x.date_of_incident, reverse=True)
+
         return render(request, 'admin_dashboard.html', {'violations': violations})
