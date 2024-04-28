@@ -6,9 +6,21 @@
     <title>Account Details</title>
     {% bootstrap_css %}
     <style>
+        html, body {
+    height: 100%; /* Ensures the full height of the viewport */
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+}
         body {
-            background-color: #f4f4f4;
-        }
+    min-height: 100vh; /* Minimum height of 100% of the viewport height */
+    display: flex;
+    flex-direction: column; /* Arrange content and footer in a column */
+}
+        .main-content {
+    flex: 1; /* Allows the main content to expand and push the footer downward */
+}
         .navbar {
             margin-bottom: 20px;
             background-color: #007bff;
@@ -64,7 +76,7 @@
         </div>
     </div>
 </nav>
-
+<div class="main-content">
 <div class="container">
     <h1>Account Details</h1>
     <div class="user-details">
@@ -72,9 +84,10 @@
         <p>Email: {{ user.email }}</p>
     </div>
 </div>
+</div>
 
 {% bootstrap_javascript %}
-{% include 'footer_absolute.html' %}
+{% include 'footer.html' %}
 </body>
 </html>
 {% endblock %}

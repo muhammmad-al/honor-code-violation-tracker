@@ -7,9 +7,21 @@
     <title>User Violations</title>
     {% bootstrap_css %}
     <style>
+        html, body {
+    height: 100%; /* Ensures the full height of the viewport */
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+}
         body {
-            background-color: #f4f4f4;
-        }
+    min-height: 100vh; /* Minimum height of 100% of the viewport height */
+    display: flex;
+    flex-direction: column; /* Arrange content and footer in a column */
+}
+        .main-content {
+    flex: 1; /* Allows the main content to expand and push the footer downward */
+}
         .navbar {
             background-color: #007bff;
             color: white;
@@ -73,7 +85,7 @@
         </div>
     </div>
 </nav>
-
+<div class="main-content">
 <div class="container">
     <h2>My Submitted Violations</h2>
     {% if violations %}
@@ -100,8 +112,9 @@
         <p>You have not submitted any violations.</p>
     {% endif %}
 </div>
+</div>
 
 {% bootstrap_javascript %}
-{% include 'footer_absolute.html' %}
+{% include 'footer.html' %}
 </body>
 </html>
