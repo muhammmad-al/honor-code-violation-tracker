@@ -50,6 +50,13 @@
         font-size: .875em;
         color: #dc3545;
     }
+    .login-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .login-link:hover {
+        text-decoration: underline;
+    }
 </style>
 {% endblock head %}
 
@@ -63,7 +70,7 @@
 <div class="container">
     <h1>{% trans "Sign Up" %}</h1>
     <p>
-        {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+        {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}" class="login-link">sign in</a>.{% endblocktrans %}
     </p>
 
     <form method="post" action="{% url 'account_signup' %}" class="form-signup">
