@@ -101,6 +101,7 @@
             <a href="{% url 'admin_dashboard_url' %}" class="btn btn-primary mb-2">Go to Admin Dashboard</a>
         {% else %}
             <a href="{% url 'user_violations' %}" class="btn btn-primary mb-2">Go to User Dashboard</a>
+            <a href="{% url 'user_dashboard_url' %}" class="btn btn-primary mb-2">Submit a Violation</a>
         {% endif %}
     {% else %}
         <div class="mb-2">
