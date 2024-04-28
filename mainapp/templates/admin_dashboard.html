@@ -88,6 +88,11 @@
                 <h5 class="card-title">Name: {{ violation.name }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Date of Incident: {{ violation.date_of_incident }}</h6>
                 <p class="card-text">Description: {{ violation.description }}</p>
+                {% if violation.user.username %}
+                <p>Submitted by: {{ violation.user.username }}</p>
+                {% else %}
+                <p>Submitted anonymously</p>
+                {% endif %}
                 <a href="{% url 'violation_detail' violation.id %}" class="btn btn-primary">View Details</a>
             </div>
             <span class="badge {% if violation.status == 'new' %}badge-new{% elif violation.status == 'in_progress' %}badge-in-progress{% elif violation.status == 'resolved' %}badge-resolved{% else %}badge-secondary{% endif %}">

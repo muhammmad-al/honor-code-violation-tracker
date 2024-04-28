@@ -78,6 +78,7 @@
         <h2>{{ violation.name }}</h2>
         <p>Date of Incident: {{ violation.date_of_incident }}</p>
         <p>Description: {{ violation.description }}</p>
+        <p>Submitted by: {{ violation.user.username }}</p>
     </div>
     {% if violation.photo %}
         <div>
