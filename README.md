@@ -11,3 +11,11 @@ This project is a Django-based web application that allows students and faculty 
 - Integrated with Amazon S3 for file storage.
 - Deployed on Heroku with continuous integration using GitHub Actions.
 
+
+## Tech Stack
+
+- **Frontend**: HTML, CSS, Bootstrap
+- **Backend**: Django
+- **Database**: PostgreSQL
+- **CI/CD**: GitHub Actions
+- **Cloud Services**: Amazon S3, Heroku
